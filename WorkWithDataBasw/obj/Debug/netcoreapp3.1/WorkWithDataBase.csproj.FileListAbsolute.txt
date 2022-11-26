@@ -1,0 +1,14 @@
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\bin\Debug\netcoreapp3.1\WorkWithDataBase.exe
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\bin\Debug\netcoreapp3.1\WorkWithDataBase.deps.json
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\bin\Debug\netcoreapp3.1\WorkWithDataBase.runtimeconfig.json
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\bin\Debug\netcoreapp3.1\WorkWithDataBase.runtimeconfig.dev.json
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\bin\Debug\netcoreapp3.1\WorkWithDataBase.dll
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\bin\Debug\netcoreapp3.1\WorkWithDataBase.pdb
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.csproj.AssemblyReference.cache
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.AssemblyInfoInputs.cache
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.AssemblyInfo.cs
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.dll
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.pdb
+C:\Users\admin\source\repos\WorkWithDataBasw\WorkWithDataBasw\obj\Debug\netcoreapp3.1\WorkWithDataBase.genruntimeconfig.cache

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Data.SqlClient;
+
 
 namespace WorkWithDataBase
 {
-    class Database 
+    class Database : IDataBaseConnect
     {
         DataSet dataSet = null;
         DataTable suppliers = null;
@@ -14,122 +16,129 @@ namespace WorkWithDataBase
         public void CreateDatabase()
         {
             dataSet = new DataSet("Store");
-            suppliers = new DataTable("Suppliers");
-            orders = new DataTable("Orders");
+
             products = new DataTable("Products");
             DataColumn productId = new DataColumn("ID", typeof(int));
             DataColumn productName = new DataColumn("Name", typeof(string));
-            DataColumn productPrice = new DataColumn("Price", typeof(double));
+            DataColumn productPrice = new DataColumn("Price", typeof(int));
             DataColumn productAmount = new DataColumn("Amount", typeof(int));
-
             products.Columns.AddRange(new DataColumn[] { productId, productName, productPrice, productAmount });
-
-            DataRow row1 = products.NewRow();
-            row1["ID"] = 1;
-            row1["Name"] = "Egg";
-            row1["Price"] = 68;
-            row1["Amount"] = 390;
-
-            DataRow row2 = products.NewRow();
-            row2["ID"] = 2;
-            row2["Name"] = "Milk";
-            row2["Price"] = 23;
-            row2["Amount"] = 120;
-
-            DataRow row3 = products.NewRow();
-            row3["ID"] = 3;
-            row3["Name"] = "Tomato";
-            row3["Price"] = 3.5;
-            row3["Amount"] = 800;
-
-            DataRow row4 = products.NewRow();
-            row4["ID"] = 4;
-            row4["Name"] = "Sugar (1kg)";
-            row4["Price"] = 42;
-            row4["Amount"] = 135;
-
-            products.Rows.Add(row1);
-            products.Rows.Add(row2);
-            products.Rows.Add(row3);
-            products.Rows.Add(row4);
-
+            AddRowInTableProduct();
             dataSet.Tables.Add(products);
 
-            DataColumn ordersId = new DataColumn("ID", typeof(int));
-            ordersId.Unique = true;
-            ordersId.AutoIncrementSeed = 1;
-            ordersId.AutoIncrementStep = 1;
-            DataColumn ordersName = new DataColumn("Name", typeof(string));
-            DataColumn ordersProduct = new DataColumn("Order Product", typeof(string));
-            DataColumn ordersSoldAmount = new DataColumn("Sold Amount", typeof(int));
-
-            orders.Columns.AddRange(new DataColumn[] { ordersId, ordersName, ordersProduct, ordersSoldAmount });
-
-            DataRow row5 = orders.NewRow();
-            row5["ID"] = 1;
-            row5["Name"] = "First Order";
-            row5["Order Product"] = "Egg";
-            row5["Sold Amount"] = 50;
-
-            DataRow row6 = orders.NewRow();
-            row6["ID"] = 2;
-            row6["Name"] = "Second Order";
-            row6["Order Product"] = "Milk";
-            row6["Sold Amount"] = 110;
-
-            DataRow row7 = orders.NewRow();
-            row7["ID"] = 3;
-            row7["Name"] = "Third Order";
-            row7["Order Product"] = "Tomato";
-            row7["Sold Amount"] = 50;
-
-            orders.Rows.Add(row5);
-            orders.Rows.Add(row6);
-            orders.Rows.Add(row7);
-
-            dataSet.Tables.Add(orders);
-
+            suppliers = new DataTable("Suppliers");
             DataColumn supplierId = new DataColumn("ID", typeof(int));
-            supplierId.Unique = true;
-            supplierId.AutoIncrementSeed = 1;
-            supplierId.AutoIncrementStep = 1;
             DataColumn supplierName = new DataColumn("Name", typeof(string));
             DataColumn supplierProduct = new DataColumn("Supplier Product", typeof(string));
             DataColumn supplierAmount = new DataColumn("Supplier Amount", typeof(string));
-
             suppliers.Columns.AddRange(new DataColumn[] { supplierId, supplierName, supplierProduct, supplierAmount });
-
-            DataRow row8 = suppliers.NewRow();
-            row8["ID"] = 1;
-            row8["Name"] = "Nestle";
-            row8["Supplier Product"] = "Milk";
-            row8["Supplier Amount"] = 100;
-
-            DataRow row9 = suppliers.NewRow();
-            row9["ID"] = 2;
-            row9["Name"] = "KurkaFarm";
-            row9["Supplier Product"] = "Eggs";
-            row9["Supplier Amount"] = 100;
-
-            DataRow row10 = suppliers.NewRow();
-            row10["ID"] = 3;
-            row10["Name"] = "PolandTomat";
-            row10["Supplier Product"] = "Tomato";
-            row10["Supplier Amount"] = 100;
-
-            DataRow row11 = suppliers.NewRow();
-            row11["ID"] = 4;
-            row11["Name"] = "BrazilSugar";
-            row11["Supplier Product"] = "Sugar (1kg)";
-            row11["Supplier Amount"] = 100;
-
-            suppliers.Rows.Add(row8);
-            suppliers.Rows.Add(row9);
-            suppliers.Rows.Add(row10);
-            suppliers.Rows.Add(row11);
-
+            AddRowInTableSuppliers();
             dataSet.Tables.Add(suppliers);
+
+            orders = new DataTable("Orders");
+            DataColumn ordersId = new DataColumn("ID", typeof(int));
+            DataColumn ordersName = new DataColumn("Name", typeof(string));
+            DataColumn ordersProduct = new DataColumn("Order Product", typeof(string));
+            DataColumn ordersSoldAmount = new DataColumn("Sold Amount", typeof(int));
+            orders.Columns.AddRange(new DataColumn[] { ordersId, ordersName, ordersProduct, ordersSoldAmount });
+            AddRowInTableOrders();
+            dataSet.Tables.Add(orders);
         }  
+
+        private void AddRowInTableProduct()
+        {
+            string queryString = "SELECT * FROM Products";
+            SqlConnection connectionString = new SqlConnection(ConnectDB());
+            connectionString.Open();
+            SqlCommand comand = new SqlCommand(queryString, connectionString);
+            SqlDataReader dataReader = comand.ExecuteReader();
+            List<int> id = new List<int>();
+            List<string> name = new List<string>();
+            List<double> price = new List<double>();
+            List<int> amount = new List<int>();
+            while (dataReader.Read())
+            {
+                id.Add(dataReader.GetInt32(0));
+                name.Add(dataReader.GetString(1));
+                price.Add(dataReader.GetInt32(2));
+                amount.Add(dataReader.GetInt32(3));
+            }
+            dataReader.Close();
+            
+            for (int i = 0; i < id.Count; i++)
+            {
+
+                DataRow row = products.NewRow();
+                row["ID"] = id[i];
+                row["Name"] = name[i];
+                row["Price"] = price[i];
+                row["Amount"] = amount[i];
+                products.Rows.Add(row); 
+            }
+            
+        }
+
+        private void AddRowInTableSuppliers()
+        {
+            string queryString = "SELECT * FROM Suppliers";
+            SqlConnection connectionString = new SqlConnection(ConnectDB());
+            connectionString.Open();
+            SqlCommand comand = new SqlCommand(queryString, connectionString);
+            SqlDataReader dataReader = comand.ExecuteReader();
+            List<int> id = new List<int>();
+            List<string> name = new List<string>();
+            List<string> product = new List<string>();
+            List<int> amount = new List<int>();
+            while (dataReader.Read())
+            {
+                id.Add(dataReader.GetInt32(0));
+                name.Add(dataReader.GetString(1));
+                product.Add(dataReader.GetString(2));
+                amount.Add(dataReader.GetInt32(3));
+            }
+            dataReader.Close();
+
+            for (int i = 0; i < id.Count; i++)
+            {
+                DataRow row = suppliers.NewRow();
+                row["ID"] = id[i];
+                row["Name"] = name[i];
+                row["Product"] = product[i];
+                row["Amount"] = amount[i];
+                suppliers.Rows.Add(row);
+            }
+        }
+
+        private void AddRowInTableOrders()
+        {
+            string queryString = "SELECT * FROM Orders";
+            SqlConnection connectionString = new SqlConnection(ConnectDB());
+            connectionString.Open();
+            SqlCommand comand = new SqlCommand(queryString, connectionString);
+            SqlDataReader dataReader = comand.ExecuteReader();
+            List<int> id = new List<int>();
+            List<string> name = new List<string>();
+            List<string> product = new List<string>();
+            List<int> amount = new List<int>();
+            while (dataReader.Read())
+            {
+                id.Add(dataReader.GetInt32(0));
+                name.Add(dataReader.GetString(1));
+                product.Add(dataReader.GetString(2));
+                amount.Add(dataReader.GetInt32(3));
+            }
+            dataReader.Close();
+
+            for (int i = 0; i < id.Count; i++)
+            {
+                DataRow row = orders.NewRow();
+                row["ID"] = id[i];
+                row["Name"] = name[i];
+                row["Product"] = product[i];
+                row["Amount"] = amount[i];
+                orders.Rows.Add(row);
+            }
+        }
 
         public void ShowInfo(string tableChoise, string operationChoise) 
         {
@@ -184,6 +193,12 @@ namespace WorkWithDataBase
 
                 }
             }
+        }
+
+        public string ConnectDB()
+        {
+            string connect = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\Products.mdf;Integrated Security=True";
+            return connect;
         }
     }
 }

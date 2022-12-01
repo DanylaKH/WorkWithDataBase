@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj": {}
+    "C:\\Users\\admin\\source\\repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj": {
+    "C:\\Users\\admin\\source\\repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\source\\repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj",
         "projectName": "WorkWithDataBase",
-        "projectPath": "C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj",
+        "projectPath": "C:\\Users\\admin\\source\\repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\obj\\",
+        "outputPath": "C:\\Users\\admin\\source\\repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cHZycLURb78CpLXAQbkQtySSlOvh+ajqtNmEx4vNj3KX7n6ng+woqQrVo/oE7WGXxVTenh8oNPI93zDeXc4qWg==",
+  "dgSpecHash": "TZxoHcJ4hTzh7oxi8ajJsz//KAxPpNBE6srh1omFNhQq9dEm2N40GT+ARv5uoW7eg5DuNosYqtDF2iT7YMzn9Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\Source\\Repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj",
+  "projectFilePath": "C:\\Users\\admin\\source\\repos\\DanylaKH\\WorkWithDataBase\\WorkWithDataBasw\\WorkWithDataBase.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace WorkWithDataBase
 {
-    class Product : Order
+    public class Product : Order
     {
         public int Id { get; set; }
         public string Name { get; set; }

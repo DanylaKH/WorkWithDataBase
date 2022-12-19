@@ -11,7 +11,6 @@ namespace WorkWithDataBase
     {
         static void Main(string[] args)
         {
-            using var conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
             ProductService productService = new ProductService();
             productService.FillData();
             List<Order> orders = new List<Order>();
@@ -33,14 +32,16 @@ namespace WorkWithDataBase
                 } 
                 while (Console.ReadLine() != "No");
                 orders.Add(newService.MakeOrder(orderProducts));
+                foreach (var product in orderProducts)
+                {
+                    newService.UppdateRowDataBase(product.Name, Console.ReadLine());
+                }
             }
             if (userChoice == "2")
             {
                 Console.WriteLine("Choice products");
                 productService.ShowAllProducts();
             }
-                
-
          }      
     }   
 }

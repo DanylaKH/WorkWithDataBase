@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
+using System.Configuration;
+using System.Collections.Specialized;
+
+
+
 
 namespace WorkWithDataBase
 {
@@ -11,6 +12,8 @@ namespace WorkWithDataBase
     {
         static void Main(string[] args)
         {
+
+
             ProductService productService = new ProductService();
             productService.FillData();
             List<Order> orders = new List<Order>();

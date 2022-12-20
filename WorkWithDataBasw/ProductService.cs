@@ -6,14 +6,14 @@ using System.Text;
 
 namespace WorkWithDataBase
 {
-    public class ProductService
+    public class ProductService : IConnectDataBase
     {
         private List<Product> Products;
         private List<Supplier> Suppliers;
 
         public void FillData()
         {
-            using var conn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
+            using var conn = new SqlConnection(ConnectDB());
             conn.Open();
 
             Products = GetData("Products", conn, x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
@@ -64,6 +64,11 @@ namespace WorkWithDataBase
             }
 
             return entities;
+        }
+
+        public string ConnectDB()
+        {
+            return "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = C:\\Users\\admin\\Downloads\\Products.mdf; Integrated Security = True; Connect Timeout = 30";
         }
     }
 }

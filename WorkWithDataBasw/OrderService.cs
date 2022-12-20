@@ -7,16 +7,8 @@ using System.Text;
 
 namespace WorkWithDataBase
 {
-    class OrderService : IConnectDataBase
+    class OrderService 
     {
-        public string ConnectDB()
-        {
-            return "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = C:\\Users\\admin\\Downloads\\Products.mdf; Integrated Security = True; Connect Timeout = 30";
-        }
-
-        //string sAttr = ConfigurationManager.AppSettings.Get("ConnectionString");
-
-
         public Order MakeOrder(List<Product> products)
         {
             Order newOrder = new Order();
@@ -24,15 +16,17 @@ namespace WorkWithDataBase
             return newOrder;
         }
 
-        public void UppdateRowDataBase(string products, string orderName)
+        public void UppdateRowDataBase(string products, string orderName, SqlConnection connectionString)
         {
             try
             {
-                var conn = new SqlConnection(ConnectDB());
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Orders (OrderProduct, OrderName) VALUES('" + products + "','" + orderName + "')", conn);
-                cmd.Parameters.Add("prdoucts", SqlDbType.VarChar, 11);
-                cmd.Parameters.Add("orderName", SqlDbType.VarChar, 11);
+                //string sAttr = ConfigurationManager.AppSettings["ConnectionString"];
+                //var connectionString = new SqlConnection(sAttr);
+                
+                //connectionString.Open();
+                SqlCommand cmd = new SqlCommand($"INSERT INTO Orders (OrderProduct, OrderName) VALUES(@OrderProduct, @OrderName)", connectionString);
+                cmd.Parameters.AddWithValue("@OrderProduct", products);
+                cmd.Parameters.AddWithValue("@OrderName", orderName);
                 cmd.ExecuteNonQuery();
             }
             catch

@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
 namespace WorkWithDataBase
 {
-    public class ProductService : IConnectDataBase
+    public class ProductService 
     {
         private List<Product> Products;
         private List<Supplier> Suppliers;
 
-        public void FillData()
+        public void FillData(SqlConnection connectionString)
         {
-            using var conn = new SqlConnection(ConnectDB());
-            conn.Open();
-
-            Products = GetData("Products", conn, x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
-            Suppliers = GetData("Suppliers", conn, x => new Supplier { Id = (int)x["SuppliersId"], Name = x["SuppliersName"].ToString() });
+            //string sAttr = ConfigurationManager.AppSettings["ConnectionString"];
+            //var connectionString = new SqlConnection(sAttr);
+            //var connectionString = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
+            //connectionString.Open();
+            Products = GetData("Products", connectionString, x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
+            Suppliers = GetData("Suppliers", connectionString, x => new Supplier { Id = (int)x["SuppliersId"], Name = x["SuppliersName"].ToString() });
         }
 
         public void ShowAllProducts()
@@ -64,11 +66,6 @@ namespace WorkWithDataBase
             }
 
             return entities;
-        }
-
-        public string ConnectDB()
-        {
-            return "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = C:\\Users\\admin\\Downloads\\Products.mdf; Integrated Security = True; Connect Timeout = 30";
         }
     }
 }

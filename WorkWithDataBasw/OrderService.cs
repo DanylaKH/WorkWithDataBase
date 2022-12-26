@@ -7,7 +7,7 @@ using System.Text;
 
 namespace WorkWithDataBase
 {
-    class OrderService 
+    class OrderService : BaseSerice<Order>
     {
         public Order MakeOrder(List<Product> products)
         {
@@ -16,23 +16,14 @@ namespace WorkWithDataBase
             return newOrder;
         }
 
-        public void UppdateRowDataBase(string products, string orderName, SqlConnection connectionString)
+        protected override SqlCommand CreateCommand(Order entity)
         {
-            try
-            {
-                //string sAttr = ConfigurationManager.AppSettings["ConnectionString"];
-                //var connectionString = new SqlConnection(sAttr);
-                
-                //connectionString.Open();
-                SqlCommand cmd = new SqlCommand($"INSERT INTO Orders (OrderProduct, OrderName) VALUES(@OrderProduct, @OrderName)", connectionString);
-                cmd.Parameters.AddWithValue("@OrderProduct", products);
-                cmd.Parameters.AddWithValue("@OrderName", orderName);
-                cmd.ExecuteNonQuery();
-            }
-            catch
-            {
-                Console.WriteLine("DataBase Error");
-            } 
+            Console.WriteLine("Insert Order Name");
+            string orderName = Console.ReadLine();
+            var command = new SqlCommand("INSERT INTO Orders(OrderProduct, OrderName) VALUES( @OrderProduct, @OrderName)");
+            command.Parameters.AddWithValue("@OrderProduct", entity.Products[0].Id);
+            command.Parameters.AddWithValue("@OrderName", orderName);
+            return command;
         }
     }
 }

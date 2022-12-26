@@ -23,7 +23,7 @@ namespace WorkWithDataBase
                 ProductService productService = new ProductService();
                 List<Order> orders = new List<Order>();
 
-                productService.FillData(connectionString);
+                productService.FillData();
                 Console.WriteLine("Choice products");
                 productService.ShowAllProducts();
                 List<Product> orderProducts = new List<Product>();
@@ -36,21 +36,17 @@ namespace WorkWithDataBase
                 } 
                 while (Console.ReadLine() != "No");
                 orders.Add(newService.MakeOrder(orderProducts));
-                foreach (var product in orderProducts)
+                foreach (var order in orders)
                 {
-                    newService.UppdateRowDataBase(product.Name, Console.ReadLine(), connectionString);
+                    newService.AddEntity(order);
                 }
                 
             }
             if (userChoice == "2")
             {
-                var connectionString = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
-                connectionString.Open();
-
                 ProductService productService = new ProductService();
                 Console.WriteLine("Choice products");
                 productService.ShowAllProducts();
-                
             }
          }      
     }   

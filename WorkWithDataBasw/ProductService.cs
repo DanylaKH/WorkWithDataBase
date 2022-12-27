@@ -7,7 +7,7 @@ using System.Text;
 
 namespace WorkWithDataBase
 {
-    public class ProductService 
+    public class ProductService : BaseSerice<Product>
     {
         private List<Product> Products;
         private List<Supplier> Suppliers;
@@ -66,6 +66,18 @@ namespace WorkWithDataBase
             }
 
             return entities;
+        }
+
+        protected override SqlCommand CreateCommand(Product entity)
+        {
+            var command = new SqlCommand("INSERT INTO Orders(ProductName, ProductPrice, ProductAmount) VALUES( @ProductName, @ProductPrice, @ProductAmount)");
+            Console.WriteLine("Insert Product Name");
+            command.Parameters.AddWithValue("@OrderProduct", Console.ReadLine());
+            Console.WriteLine("Insert Product Name");
+            command.Parameters.AddWithValue("@ProductPrice", Console.ReadLine());
+            Console.WriteLine("Insert Product Amount");
+            command.Parameters.AddWithValue("@ProductAmount", Console.ReadLine());
+            return command;
         }
     }
 }

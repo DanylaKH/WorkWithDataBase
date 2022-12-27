@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorkWithDataBase
 {
-    abstract class BaseSerice<TEntity> 
+    public abstract class BaseSerice<TEntity> 
     {
         public void AddEntity(TEntity entity)
         {

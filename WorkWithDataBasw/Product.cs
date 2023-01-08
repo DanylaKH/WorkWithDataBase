@@ -13,4 +13,6 @@ namespace WorkWithDataBase
         public string Name { get; set; }
         public Supplier Supplier { get; set; }
     }
+
+
 }

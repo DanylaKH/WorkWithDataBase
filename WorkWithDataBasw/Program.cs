@@ -12,7 +12,7 @@ namespace WorkWithDataBase
         {
             Console.WriteLine("What you want do now?");
             Console.WriteLine("1) Make new Order");
-            Console.WriteLine("2) Show info about all products");
+            Console.WriteLine("2) Show info about products");
             string userChoice = Console.ReadLine();
             if (userChoice == "1")
             {

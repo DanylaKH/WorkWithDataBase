@@ -10,17 +10,29 @@ namespace WorkWithDataBase
     public class ProductService : BaseSerice<Product>
     {
         private List<Product> Products;
-        private List<Supplier> Suppliers;
+        //private List<Supplier> Suppliers;
 
+        Product testProduct = new Product();
         public void FillData()
         {
-            //string sAttr = ConfigurationManager.AppSettings["ConnectionString"];
-            //var connectionString = new SqlConnection(sAttr);
-            var connectionString = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
-            connectionString.Open();
-            Products = GetData("Products", connectionString, x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
-            Suppliers = GetData("Suppliers", connectionString, x => new Supplier { Id = (int)x["SuppliersId"], Name = x["SuppliersName"].ToString() });
+            Products = GetData(testProduct, x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
+            //Suppliers = GetData("Suppliers", x => new Supplier { Id = (int)x["SuppliersId"], Name = x["SuppliersName"].ToString() });
         }
+
+        /*private List<TType> GetData<TType>(string tableName, SqlConnection conn, Func<SqlDataReader, TType> handler)
+        {
+            var command = new SqlCommand($"select * from {tableName}", conn);
+            using var reader = command.ExecuteReader();
+            var entities = new List<TType>();
+
+            while (reader.Read())
+            {
+                var entity = handler(reader);
+                entities.Add(entity);
+            }
+
+            return entities;
+        }*/
 
         public void ShowAllProducts()
         {
@@ -53,31 +65,58 @@ namespace WorkWithDataBase
             }
         }
 
-        private List<TType> GetData<TType>(string tableName, SqlConnection conn, Func<SqlDataReader, TType> handler)
+        protected override SqlCommand CreateCommand(Product entity, string action)
         {
-            var command = new SqlCommand($"select * from {tableName}", conn);
-            using var reader = command.ExecuteReader();
-            var entities = new List<TType>();
-
-            while (reader.Read())
+            if (action == "get")
             {
-                var entity = handler(reader);
-                entities.Add(entity);
+                var command = new SqlCommand("select * from  @tableName ");
+                command.Parameters.AddWithValue("@tableName", "Products");
+                return command;
+            }
+            if (action == "delete")
+            {
+                var command = new SqlCommand("delete from @tableName where ProductName = @productName");
+                command.Parameters.AddWithValue("@tableName", "Products");
+                Console.WriteLine("Write the name of the product to be removed");
+                string productName = Console.ReadLine();
+                command.Parameters.AddWithValue("@productName", productName);
+                return command;
+            }
+            if (action == "update")
+            {
+                var command = new SqlCommand("update @tableName set ProductName = @newProductName, ProductPrice = @newProductPrice, ProductAmount = @newProductAmount where ProductName = @productName");
+                command.Parameters.AddWithValue("@tableName", "Products");
+                Console.WriteLine("write the name of the replacement product");
+                string productName = Console.ReadLine();
+                command.Parameters.AddWithValue("@productName", productName);
+                Console.WriteLine("Write the new product name");
+                string newProductName = Console.ReadLine();
+                command.Parameters.AddWithValue("@newProductName", newProductName);
+                Console.WriteLine("Write the new price");
+                string newProductPrice = Console.ReadLine();
+                command.Parameters.AddWithValue("@newProductPrice", newProductPrice);
+                Console.WriteLine("Write the new amount");
+                string newProductAmount = Console.ReadLine();
+                command.Parameters.AddWithValue("@newProductAmount", newProductAmount);
+                return command;
+            }
+            else
+            {
+                var command = new SqlCommand("INSERT INTO @tableName(ProductName, ProductPrice, ProductAmount) VALUES( @ProductName, @ProductPrice, @ProductAmount)");
+                command.Parameters.AddWithValue("@tableName", "Products");
+                Console.WriteLine("Insert Product Name");
+                string productName = Console.ReadLine();
+                command.Parameters.AddWithValue("@ProductName", productName);
+                Console.WriteLine("Insert Product Name");
+                string productPrice = Console.ReadLine();
+                command.Parameters.AddWithValue("@ProductPrice", productPrice);
+                Console.WriteLine("Insert Product Amount");
+                string productAmount = Console.ReadLine();
+                command.Parameters.AddWithValue("@ProductAmount", productAmount);
+                return command;
             }
 
-            return entities;
-        }
 
-        protected override SqlCommand CreateCommand(Product entity)
-        {
-            var command = new SqlCommand("INSERT INTO Orders(ProductName, ProductPrice, ProductAmount) VALUES( @ProductName, @ProductPrice, @ProductAmount)");
-            Console.WriteLine("Insert Product Name");
-            command.Parameters.AddWithValue("@OrderProduct", Console.ReadLine());
-            Console.WriteLine("Insert Product Name");
-            command.Parameters.AddWithValue("@ProductPrice", Console.ReadLine());
-            Console.WriteLine("Insert Product Amount");
-            command.Parameters.AddWithValue("@ProductAmount", Console.ReadLine());
-            return command;
         }
     }
 }

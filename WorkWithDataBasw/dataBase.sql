@@ -1,6 +1,12 @@
 ﻿USE [master]
 GO
 
+CREATE DATABASE [Store]
+GO
+
+USE Store 
+GO
+
 CREATE TABLE [dbo].[Products] (
     [ProductId]     INT           NOT NULL,
     [ProductName]   NVARCHAR (50) NOT NULL,

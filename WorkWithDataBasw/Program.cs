@@ -38,7 +38,7 @@ namespace WorkWithDataBase
                 orders.Add(newService.MakeOrder(orderProducts));
                 foreach (var order in orders)
                 {
-                    newService.AddEntity(order);
+                    newService.AddEntity("Orders", order);
                 }
                 
             }

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace WorkWithDataBase
 {
-    class SupplierService : BaseSerice<Supplier>
+    class SupplierService
     {
         private List<Supplier> Suppliers;
 
-        Supplier test1 = new Supplier();
+        /*Supplier test1 = new Supplier();
 
         public void FillData()
         {
@@ -72,6 +72,6 @@ namespace WorkWithDataBase
                 command.Parameters.AddWithValue("@SuppliersID", suppliersID);
                 return command;
             }
-        }
+        }*/
     }
 }

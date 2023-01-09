@@ -16,48 +16,42 @@ namespace WorkWithDataBase
             return newOrder;
         }
 
-        protected override SqlCommand CreateCommand(Order entity, string action)
+        protected override SqlCommand CreateAddCommand(string tableName, Order entity)
         {
-            if (action == "get")
-            {
-                var command = new SqlCommand("select * from  @tableName ");
-                command.Parameters.AddWithValue("@tableName", "Orders");
-                return command;
-            }
-            if (action == "delete")
-            {
-                var command = new SqlCommand("delete from @tableName where OrderName = @orderName");
-                command.Parameters.AddWithValue("@tableName", "Orders");
-                Console.WriteLine("Write the name of the order to be removed");
-                string orderName = Console.ReadLine();
-                command.Parameters.AddWithValue("@orderName", orderName);
-                return command;
-            }
-            if (action == "update")
-            {
-                var command = new SqlCommand("update @tableName set OrderName = @newOrderName, OrderProduct = @newOrderProduct where OrderName = @orderName");
-                command.Parameters.AddWithValue("@tableName", "Orders");
-                Console.WriteLine("Write the name of the replacement order");
-                string orderName = Console.ReadLine();
-                command.Parameters.AddWithValue("@orderName", orderName);
-                Console.WriteLine("Write the new order name");
-                string newOrderName = Console.ReadLine();
-                command.Parameters.AddWithValue("@newOrderName", newOrderName);
-                Console.WriteLine("Write the new product (int)");
-                string newOrderProduct = Console.ReadLine();
-                command.Parameters.AddWithValue("@newOrderProduct", newOrderProduct);
-                return command;
-            }
-            else
-            {
-                Console.WriteLine("Insert Order Name");
-                string orderName = Console.ReadLine();
-                var command = new SqlCommand("INSERT INTO Orders(OrderProduct, OrderName) VALUES( @OrderProduct, @OrderName)");
-                command.Parameters.AddWithValue("@OrderProduct", entity.Products[0].Id);
-                command.Parameters.AddWithValue("@OrderName", orderName);
-                return command;
-            }
-            
+            Console.WriteLine("Insert Order Name");
+            string orderName = Console.ReadLine();
+            var command = new SqlCommand("INSERT INTO Orders(OrderProduct, OrderName) VALUES( @OrderProduct, @OrderName)");
+            command.Parameters.AddWithValue("@OrderProduct", entity.Products[0].Id);
+            command.Parameters.AddWithValue("@OrderName", orderName);
+            return command;
+        }
+        protected override SqlCommand CreateDeleteCommand(string tableName, Order entity)
+        {
+            var command = new SqlCommand("delete from @tableName where OrderName = @orderName");
+            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@orderName", entity.Id);
+            return command;
+        }
+
+        protected override SqlCommand CreateGetCommand(string tableName)
+        {
+            var command = new SqlCommand("select * from  @tableName");
+            command.Parameters.AddWithValue("@tableName", tableName);
+            return command;
+        }
+
+        protected override SqlCommand CreateUpdateCommand(string tableName, Order entity)
+        {
+            var command = new SqlCommand("update @tableName set OrderName = @newOrderName, OrderProduct = @newOrderProduct where OrderName = @orderName");
+            command.Parameters.AddWithValue("@tableName", tableName);
+            Console.WriteLine("Write the name of the replacement order");
+            string orderName = Console.ReadLine();
+            command.Parameters.AddWithValue("@orderName", orderName);
+            Console.WriteLine("Write the new order name");
+            string newOrderName = Console.ReadLine();
+            command.Parameters.AddWithValue("@newOrderName", newOrderName);
+            command.Parameters.AddWithValue("@newOrderProduct", entity.Products[0].Id);
+            return command;
         }
     }
 }

@@ -13,6 +13,9 @@ namespace WorkWithDataBase
             Console.WriteLine("What you want do now?");
             Console.WriteLine("1) Make new Order");
             Console.WriteLine("2) Show info about products");
+            Console.WriteLine("3) Delete Product");
+            Console.WriteLine("4) Add Product");
+            Console.WriteLine("5) Update Product");
             string userChoice = Console.ReadLine();
             if (userChoice == "1")
             {
@@ -38,7 +41,7 @@ namespace WorkWithDataBase
                 orders.Add(newService.MakeOrder(orderProducts));
                 foreach (var order in orders)
                 {
-                    newService.AddEntity("Orders", order);
+                    newService.UpdateInfo(newService.CreateAddCommand, order);
                 }
                 
             }
@@ -48,6 +51,37 @@ namespace WorkWithDataBase
                 Console.WriteLine("Choice products");
                 productService.ShowAllProducts();
             }
-         }      
+            if(userChoice == "3")
+            {
+                ProductService productService = new ProductService();
+                Console.WriteLine("Choice products");
+                List<Product> updateProducts = productService.BackProduct(Console.ReadLine());
+                foreach(Product product in updateProducts)
+                {
+                    productService.UpdateInfo(productService.CreateDeleteCommand, product);
+                }
+                
+            }
+            if (userChoice == "4")
+            {
+                ProductService productService = new ProductService();
+                Console.WriteLine("Choice products");
+                List<Product> updateProducts = productService.BackProduct(Console.ReadLine());
+                foreach (Product product in updateProducts)
+                {
+                    productService.UpdateInfo(productService.CreateAddCommand, product);
+                }
+            }
+            if (userChoice == "5")
+            {
+                ProductService productService = new ProductService();
+                Console.WriteLine("Choice products");
+                List<Product> updateProducts = productService.BackProduct(Console.ReadLine());
+                foreach (Product product in updateProducts)
+                {
+                    productService.UpdateInfo(productService.CreateUpdateCommand, product);
+                }
+            }
+        }      
     }   
 }

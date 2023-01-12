@@ -12,7 +12,7 @@ namespace WorkWithDataBase
         private List<Product> Products;
         private List<Supplier> Suppliers;
 
-        Product testProduct = new Product();
+        
         public void FillData()
         {
             Products = GetData("Products" , x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
@@ -57,10 +57,10 @@ namespace WorkWithDataBase
             return command;
         }
 
-        protected override SqlCommand CreateAddCommand(string tableName, Product entity)
+        public override SqlCommand CreateAddCommand(Product entity)
         {
             var command = new SqlCommand("INSERT INTO @tableName(ProductName, ProductPrice, ProductAmount) VALUES( @ProductName, @ProductPrice, @ProductAmount)");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Products");
             command.Parameters.AddWithValue("@ProductName", entity.Name);
             Random rnd = new Random();
             string productPrice = Convert.ToString(rnd.Next(2, 70));
@@ -70,18 +70,18 @@ namespace WorkWithDataBase
             return command;
         }
 
-        protected override SqlCommand CreateDeleteCommand(string tableName, Product entity)
+        public override SqlCommand CreateDeleteCommand(Product entity)
         {
             var command = new SqlCommand("delete from @tableName where ProductName = @productName");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Products");
             command.Parameters.AddWithValue("@productName", entity.Name);
             return command;
         }
 
-        protected override SqlCommand CreateUpdateCommand(string tableName, Product entity)
+        public override SqlCommand CreateUpdateCommand(Product entity)
         {
             var command = new SqlCommand("update @tableName set ProductName = @newProductName, ProductPrice = @newProductPrice, ProductAmount = @newProductAmount where ProductName = @productName");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Products");
             command.Parameters.AddWithValue("@productName", entity.Name);
             Console.WriteLine("Write the new product name");
             string newProductName = Console.ReadLine();

@@ -16,7 +16,7 @@ namespace WorkWithDataBase
             return newOrder;
         }
 
-        protected override SqlCommand CreateAddCommand(string tableName, Order entity)
+        public override SqlCommand CreateAddCommand(Order entity)
         {
             Console.WriteLine("Insert Order Name");
             string orderName = Console.ReadLine();
@@ -25,10 +25,10 @@ namespace WorkWithDataBase
             command.Parameters.AddWithValue("@OrderName", orderName);
             return command;
         }
-        protected override SqlCommand CreateDeleteCommand(string tableName, Order entity)
+        public override SqlCommand CreateDeleteCommand(Order entity)
         {
             var command = new SqlCommand("delete from @tableName where OrderName = @orderName");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Orders");
             command.Parameters.AddWithValue("@orderName", entity.Id);
             return command;
         }
@@ -40,10 +40,10 @@ namespace WorkWithDataBase
             return command;
         }
 
-        protected override SqlCommand CreateUpdateCommand(string tableName, Order entity)
+        public override SqlCommand CreateUpdateCommand(Order entity)
         {
             var command = new SqlCommand("update @tableName set OrderName = @newOrderName, OrderProduct = @newOrderProduct where OrderName = @orderName");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Orders");
             Console.WriteLine("Write the name of the replacement order");
             string orderName = Console.ReadLine();
             command.Parameters.AddWithValue("@orderName", orderName);

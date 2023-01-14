@@ -10,13 +10,12 @@ namespace WorkWithDataBase
     public class ProductService : BaseSerice<Product>
     {
         private List<Product> Products;
-        private List<Supplier> Suppliers;
+        
 
         
         public void FillData()
         {
-            Products = GetData("Products" , x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
-            Suppliers = GetData("Suppliers", x => new Supplier { Id = (int)x["SuppliersId"], Name = x["SuppliersName"].ToString() });
+            Products = GetData( x => new Product { Id = (int)x["ProductId"], Name = x["ProductName"].ToString() });
         }
 
         public void ShowAllProducts()
@@ -50,14 +49,14 @@ namespace WorkWithDataBase
             }
         }
 
-        protected override SqlCommand CreateGetCommand(string tableName)
+        protected override SqlCommand CreateGetCommand()
         {
             var command = new SqlCommand("select * from  @tableName ");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Products");
             return command;
         }
 
-        public override SqlCommand CreateAddCommand(Product entity)
+        protected override SqlCommand CreateAddCommand(Product entity)
         {
             var command = new SqlCommand("INSERT INTO @tableName(ProductName, ProductPrice, ProductAmount) VALUES( @ProductName, @ProductPrice, @ProductAmount)");
             command.Parameters.AddWithValue("@tableName", "Products");
@@ -70,7 +69,7 @@ namespace WorkWithDataBase
             return command;
         }
 
-        public override SqlCommand CreateDeleteCommand(Product entity)
+        protected override SqlCommand CreateDeleteCommand(Product entity)
         {
             var command = new SqlCommand("delete from @tableName where ProductName = @productName");
             command.Parameters.AddWithValue("@tableName", "Products");
@@ -78,7 +77,7 @@ namespace WorkWithDataBase
             return command;
         }
 
-        public override SqlCommand CreateUpdateCommand(Product entity)
+        protected override SqlCommand CreateUpdateCommand(Product entity)
         {
             var command = new SqlCommand("update @tableName set ProductName = @newProductName, ProductPrice = @newProductPrice, ProductAmount = @newProductAmount where ProductName = @productName");
             command.Parameters.AddWithValue("@tableName", "Products");

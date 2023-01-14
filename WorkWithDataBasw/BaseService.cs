@@ -7,7 +7,7 @@ namespace WorkWithDataBase
 {
     public abstract class BaseSerice<TEntity> 
     {
-        public void UpdateInfo(Func<TEntity, SqlCommand> GetCommand, TEntity entity)
+        private void UpdateInfo(Func<TEntity, SqlCommand> GetCommand, TEntity entity)
         {
             using var sqlConnection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
             var command = GetCommand(entity);
@@ -16,10 +16,10 @@ namespace WorkWithDataBase
             command.ExecuteNonQuery();
         }
 
-        public List<TType> GetData<TType>(string tableName, Func<SqlDataReader, TType> handler)
+        public List<TType> GetData<TType>(Func<SqlDataReader, TType> handler)
         {
             using var sqlConnection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
-            var command = CreateGetCommand(tableName);
+            var command = CreateGetCommand();
             using var reader = command.ExecuteReader();
             var entities = new List<TType>();
 
@@ -32,31 +32,27 @@ namespace WorkWithDataBase
             return entities;
         }
 
-        /*public void DeleteEntity(string tableName, TEntity entity)
+        public void Update(TEntity entity)
         {
-            using var sqlConnection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
-            var command = CreateDeleteCommand(tableName, entity);
-            command.Connection = sqlConnection;
-            sqlConnection.Open();
-            command.ExecuteNonQuery();
+            UpdateInfo(CreateUpdateCommand, entity);
         }
 
-        public void UppdateEntity(string tableName, TEntity entity)
+        public void Delete(TEntity entity)
         {
-            using var sqlConnection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
-            var command = CreateUpdateCommand(tableName, entity);
-            command.Connection = sqlConnection;
-            sqlConnection.Open();
-            command.ExecuteNonQuery();
-        }*/
+            UpdateInfo(CreateDeleteCommand, entity);
+        }
 
-        protected abstract SqlCommand CreateGetCommand(string tableName);
+        public void Add(TEntity entity)
+        {
+            UpdateInfo(CreateAddCommand, entity);
+        }
+        protected abstract SqlCommand CreateGetCommand();
 
-        public abstract SqlCommand CreateAddCommand(TEntity entity);
+        protected abstract SqlCommand CreateAddCommand(TEntity entity);
 
-        public abstract SqlCommand CreateDeleteCommand(TEntity entity);
+        protected abstract SqlCommand CreateDeleteCommand(TEntity entity);
 
-        public abstract SqlCommand CreateUpdateCommand(TEntity entity);
+        protected abstract SqlCommand CreateUpdateCommand(TEntity entity);
     }
 }
     

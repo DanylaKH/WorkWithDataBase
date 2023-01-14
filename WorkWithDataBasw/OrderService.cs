@@ -16,7 +16,7 @@ namespace WorkWithDataBase
             return newOrder;
         }
 
-        public override SqlCommand CreateAddCommand(Order entity)
+        protected override SqlCommand CreateAddCommand(Order entity)
         {
             Console.WriteLine("Insert Order Name");
             string orderName = Console.ReadLine();
@@ -25,7 +25,7 @@ namespace WorkWithDataBase
             command.Parameters.AddWithValue("@OrderName", orderName);
             return command;
         }
-        public override SqlCommand CreateDeleteCommand(Order entity)
+        protected override SqlCommand CreateDeleteCommand(Order entity)
         {
             var command = new SqlCommand("delete from @tableName where OrderName = @orderName");
             command.Parameters.AddWithValue("@tableName", "Orders");
@@ -33,14 +33,14 @@ namespace WorkWithDataBase
             return command;
         }
 
-        protected override SqlCommand CreateGetCommand(string tableName)
+        protected override SqlCommand CreateGetCommand()
         {
             var command = new SqlCommand("select * from  @tableName");
-            command.Parameters.AddWithValue("@tableName", tableName);
+            command.Parameters.AddWithValue("@tableName", "Orders");
             return command;
         }
 
-        public override SqlCommand CreateUpdateCommand(Order entity)
+        protected override SqlCommand CreateUpdateCommand(Order entity)
         {
             var command = new SqlCommand("update @tableName set OrderName = @newOrderName, OrderProduct = @newOrderProduct where OrderName = @orderName");
             command.Parameters.AddWithValue("@tableName", "Orders");

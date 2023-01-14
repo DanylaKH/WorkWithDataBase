@@ -19,67 +19,68 @@ namespace WorkWithDataBase
             string userChoice = Console.ReadLine();
             if (userChoice == "1")
             {
-                var connectionString = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\admin\\Downloads\\Products.mdf;Integrated Security=True;Connect Timeout=30");
-                connectionString.Open();
+                ProductService productOperator = new ProductService();
+                productOperator.FillData();
 
-                OrderService newService = new OrderService();
-                ProductService productService = new ProductService();
-                List<Order> orders = new List<Order>();
-
-                productService.FillData();
                 Console.WriteLine("Choice products");
-                productService.ShowAllProducts();
+                productOperator.ShowAllProducts();
                 List<Product> orderProducts = new List<Product>();
                 do
                 {
-                    
                     Console.WriteLine("Choice one product");
-                    orderProducts = productService.BackProduct(Console.ReadLine());
+                    orderProducts = productOperator.BackProduct(Console.ReadLine());
                     Console.WriteLine("Another product?");
-                } 
+                }
                 while (Console.ReadLine() != "No");
-                orders.Add(newService.MakeOrder(orderProducts));
+
+                OrderService orderOperator = new OrderService();
+                List<Order> orders = new List<Order>();
+                orders.Add(orderOperator.MakeOrder(orderProducts));
                 foreach (var order in orders)
                 {
-                    newService.UpdateInfo(newService.CreateAddCommand, order);
+                    orderOperator.Add(order);
                 }
-                
+
             }
             if (userChoice == "2")
             {
-                ProductService productService = new ProductService();
+                ProductService productOperator = new ProductService();
+                productOperator.FillData();
                 Console.WriteLine("Choice products");
-                productService.ShowAllProducts();
+                productOperator.ShowAllProducts();
             }
             if(userChoice == "3")
             {
-                ProductService productService = new ProductService();
+                ProductService productOperator = new ProductService();
+                productOperator.FillData();
                 Console.WriteLine("Choice products");
-                List<Product> updateProducts = productService.BackProduct(Console.ReadLine());
+                List<Product> updateProducts = productOperator.BackProduct(Console.ReadLine());
                 foreach(Product product in updateProducts)
                 {
-                    productService.UpdateInfo(productService.CreateDeleteCommand, product);
+                    productOperator.Delete(product);
                 }
                 
             }
             if (userChoice == "4")
             {
-                ProductService productService = new ProductService();
+                ProductService productOperator = new ProductService();
+                productOperator.FillData();
                 Console.WriteLine("Choice products");
-                List<Product> updateProducts = productService.BackProduct(Console.ReadLine());
+                List<Product> updateProducts = productOperator.BackProduct(Console.ReadLine());
                 foreach (Product product in updateProducts)
                 {
-                    productService.UpdateInfo(productService.CreateAddCommand, product);
+                    productOperator.Add(product);
                 }
             }
             if (userChoice == "5")
             {
-                ProductService productService = new ProductService();
+                ProductService productOperator = new ProductService();
+                productOperator.FillData();
                 Console.WriteLine("Choice products");
-                List<Product> updateProducts = productService.BackProduct(Console.ReadLine());
+                List<Product> updateProducts = productOperator.BackProduct(Console.ReadLine());
                 foreach (Product product in updateProducts)
                 {
-                    productService.UpdateInfo(productService.CreateUpdateCommand, product);
+                    productOperator.Update(product);
                 }
             }
         }      
